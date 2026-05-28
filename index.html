@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ava DeLaurie | Class of 2028 Midfielder | Recruiting Portal</title>
+  <!-- Premium Modern Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap');
+    
+    :root {
+      --bg-dark: #1b1c31; /* Sidebar Dark Navy */
+      --sky-blue: #72bcec; /* Widescreen Blue Backdrop */
+      --pill-bg: #8c93ee;  /* Mockup Statistics pill color */
+      --text-main: #ffffff;
+      --text-muted: #e2e8f0;
+      --border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #f1f3f6; /* Modern light backing */
+      color: var(--text-main);
+      font-family: 'Orbitron', 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Main Container conforming to Figma width */
+    .outer-wrapper {
+      width: 100%;
+      max-width: 1200px;
+      background: #ffffff;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow: visible; /* Ensure content shadows and responsive overflow flow naturally */
+    }
+
+    /* Figma Header Layout */
+    header {
+      width: 100%;
+      height: 110px; /* Premium tall header matching mockup perfectly */
+      background: rgba(252, 108, 47, 0.90); /* Glassmorphic orange */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 40px;
+      padding-left: 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 320px;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .header-buttons {
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn-header {
+      padding: 12px 32px; /* Premium spacing and padding matching mockup */
+      border-radius: 30px;
+      font-size: 14.5px; /* Perfect legibility */
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      font-family: 'Orbitron', 'Space Grotesk', sans-serif;
+      letter-spacing: -0.2px;
+    }
+
+    .btn-header.primary {
+      background: #7e8df0;
+      color: #ffffff;
+      border: 3px solid #1e3a8a; /* Dark blue stroke */
+      box-shadow: 0 4px 10px rgba(126, 141, 240, 0.25);
+      animation: pulseGlow 3s infinite; /* Subtle continuous glow */
+    }
+
+    .btn-header.primary:hover {
+      transform: translateY(-1.5px);
+      background: #6c7be5;
+      box-shadow: 0 6px 15px rgba(126, 141, 240, 0.35);
+    }
+
+    .btn-header.secondary {
+      background: #1c1d39;
+      color: #ffffff;
+      border: 3px solid #72bcec; /* Sky blue stroke */
+      box-shadow: 0 4px 10px rgba(28, 29, 57, 0.2);
+    }
+
+    .btn-header.secondary:hover {
+      transform: translateY(-1.5px);
+      background: #2a2b53; /* Elegant lighter navy hover */
+      box-shadow: 0 6px 15px rgba(28, 29, 57, 0.3);
+    }
+
+    /* Main Content Two-Column Grid */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      flex: 1;
+      width: 100%;
+    }
+
+    @media (min-width: 1024px) { /* Increased breakpoint to 1024px to prevent horizontal column compression on medium screens */
+      .grid-container {
+        grid-template-columns: 320px 1fr;
+        width: 100%; /* Force grid container to span full width of the parent layout */
+      }
+    }
+
+    /* Left Sidebar: Glassmorphic Navy */
+    .sidebar {
+      background: rgba(28, 29, 57, 0.92); /* Glassmorphic navy */
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .profile-image-wrapper {
+      position: relative;
+      width: 155px;
+      height: 155px;
+      border-radius: 50%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .profile-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      transform: scale(1.15);
+    }
+
+    .athlete-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .stats-pills-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .stat-pill {
+      background: var(--pill-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      text-align: center;
+      flex: 1;
+      font-family: 'Orbitron', sans-serif;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      line-height: 1.2;
+    }
+    
+    .stat-big {
+      font-size: 16px;
+      font-weight: 800;
+      display: block;
+    }
+    
+    .stat-small {
+      font-size: 9px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .bio-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .bio-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-main);
+      font-weight: 400;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Right Column: Sky Blue Grid */
+    .content-area {
+      background-color: var(--sky-blue);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      width: 100%; /* Ensure sky-blue grid column fills the entire horizontal space of the grid cell */
+    }
+
+    /* Schedule Table Section */
+    .schedule-wrapper {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+
+    .sec-header {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #191c3d;
+      margin-bottom: 16px;
+    }
+
+    .sec-header-white {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .schedule-table th, .schedule-table td {
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .schedule-table th {
+      background: #f8fafc;
+      color: #1e293b;
+      font-weight: 700;
+    }
+
+    .schedule-table td {
+      color: #334155;
+      font-weight: 700;
+    }
+
+    /* Highlights Section with Tab Selector */
+    .highlights-wrapper {
+      width: 100%;
+    }
+
+    .video-card {
+      background: #1e2235;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .video-player-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #000;
+      margin-bottom: 16px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .video-player-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Tab Controller */
+    .tab-bar {
+      display: flex;
+      gap: 12px;
+    }
+
+    .video-tab {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      flex: 1;
+      text-align: center;
+    }
+
+    .btn-contact {
+      background-color: var(--accent-orange);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      margin-top: 15px;
+    }
+
+    .btn-contact:hover {
+      background-color: #e55c20;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(252, 108, 47, 0.4);
+    }
+
+    /* --- Keyframe Animations --- */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 4px 10px rgba(126, 141, 240, 0.25); }
+      50% { box-shadow: 0 4px 25px rgba(126, 141, 240, 0.6); }
+      100% { box-shadow: 0 4px 10px rgba(126, 141, 240, 0.25); }
+    }
+
+    .animate-section {
+      opacity: 0; /* Start hidden for animation */
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+
+    .video-tab.active {
+      background: var(--sky-blue);
+      border-color: #ffffff;
+      box-shadow: 0 4px 10px rgba(74, 167, 229, 0.3);
+    }
+
+    /* Sub-gallery Block with Slider */
+    .sub-gallery-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px;
+      width: 100%;
+      max-width: 400px;
+      margin-top: 15px;
+    }
+
+    .sub-gallery-img {
+      width: 80%;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .nav-arrow {
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+      user-select: none;
+      padding: 4px 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-arrow:hover {
+      transform: scale(1.2);
+    }
+
+    /* Bottom 7-Photo Horizontal Grid */
+    .bottom-gallery {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scroll-snap-type: x mandatory;
+    }
+
+    .gallery-photo-wrapper {
+      flex: 0 0 120px;
+      height: 150px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #ffffff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      scroll-snap-align: start;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-photo-wrapper:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    .gallery-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Live Tracking Indicator Widget */
+    .telemetry-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 11px;
+      color: #ffffff;
+      background: rgba(0,0,0,0.3);
+      padding: 8px 16px;
+      border-top: 1px solid var(--border-color);
+      width: 100%;
+      text-align: center;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: heart-pulse 1.5s infinite;
+    }
+
+    @keyframes heart-pulse {
+      0% { transform: scale(0.9); opacity: 0.6; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.6; }
+    }
+    /* Contact Modal CSS */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-box {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      position: relative;
+    }
+    .modal-box h3 {
+      color: #191c3d;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    .modal-box p {
+      color: #334155;
+      margin-bottom: 15px;
+      font-size: 15px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .modal-box a {
+      color: #4aa7e5;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .modal-box a:hover {
+      text-decoration: underline;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px; right: 15px;
+      font-size: 24px;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+    .close-btn:hover {
+      color: #191c3d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="outer-wrapper">
+    <!-- Header Navigation -->
+    <header>
+      <div style="display: flex; align-items: center;">
+        <div class="logo-container" onclick="window.location.reload();" title="Ava DeLaurie Recruiting Portal">
+          <!-- Official AD7 Logo -->
+          <img src="logoorg.jpg" alt="AD7 Logo" style="height: 85px; object-fit: contain; cursor: pointer;">
+        </div>
+      </div>
+      <div class="header-buttons">
+        <a href="https://recruit-match.ncsasports.org/clientrms/athlete_profiles/14451613" target="_blank" class="btn-header primary" onclick="trackButtonEvent('View NCSA Profile')">View NCSA Profile</a>
+        <button onclick="trackButtonEvent('Contact Dad Modal'); document.getElementById('contactModal').style.display='flex'" class="btn-header secondary" style="cursor: pointer; font-family: 'Orbitron', sans-serif;">Contact Ava's Dad</button>
+      </div>
+    </header>
+
+    <!-- Two Column Grid -->
+    <div class="grid-container">
+      
+      <!-- Sidebar (Left Column) -->
+      <aside class="sidebar">
+        <div class="profile-image-wrapper">
+          <img src="avaLPheadshot.jpg" alt="Ava DeLaurie Headshot" class="profile-image">
+        </div>
+        <img src="AvaDeLaurienumber7.jpg" alt="Ava DeLaurie #7" style="width: 100%; max-width: 260px; margin-bottom: 20px;">
+        
+        <img src="pillsstats.jpg" alt="Ava Stats" style="width: 100%; max-width: 280px; margin-bottom: 30px; transform: scale(1.2);">
+
+        <div class="bio-block">
+          <p class="bio-text">
+            Soccer has been my passion for as long as I can remember, and my dream is to compete at the collegiate level where I can continue growing as both a player and a person.
+          </p>
+          <p class="bio-text">
+            I've been very fortunate to train under some of the best coaches and mentors, many with professional and international experience.
+          </p>
+          <p class="bio-text">
+            Their knowledge, leadership, and focus on character development have helped me build a strong foundation—one that I know not every player has access to at this age. I take that responsibility seriously.
+          </p>
+          <p class="bio-text">
+            It's made me a player who understands the importance of discipline, adaptability, and high soccer IQ on the field—and being a great teammate and role model off of it.
+          </p>
+          <img src="Clubs1.jpg" alt="Ava's Clubs" style="width: 100%; max-width: 280px; margin-top: 25px; border-radius: 8px;">
+          <img src="little_ava1.jpg" alt="Little Ava" style="width: 100%; max-width: 280px; margin-top: 20px; border-radius: 8px;">
+        </div>
+      </aside>
+
+      <!-- Content Area (Right Column) -->
+      <main class="content-area" style="padding: 40px 50px;">
+        
+        <!-- Schedule Table -->
+        <section class="schedule-wrapper animate-section delay-1" style="margin-bottom: 30px;">
+          <h3 class="sec-header" style="font-family: 'Orbitron', sans-serif;">Upcoming Schedule:  Elite Development Academy (EDA)</h3>
+          <div class="table-container">
+            <table class="schedule-table">
+              <thead>
+                <tr>
+                  <th>May (30-31)</th>
+                  <th>June (12-15)</th>
+                  <th>July (13-21)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Legends - The Showcase</strong></td>
+                  <td><strong>Surf Cup</strong></td>
+                  <td><strong>USYS National Championships</strong></td>
+                </tr>
+                <tr>
+                  <td>Silverlakes Soccer Complex<br>Norco, CA</td>
+                  <td>Surf Sports Park<br>Del Mar, CA</td>
+                  <td>Richard Siegel Soccer Complex<br>Murfreesboro, TN</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Highlights Player -->
+        <section class="highlights-wrapper animate-section delay-2">
+          <div class="video-card">
+            <h3 class="sec-header" style="color: #ffffff; margin-bottom: 12px; font-family: 'Orbitron', sans-serif;">Featured Highlights</h3>
+            
+            <div class="video-player-container">
+              <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/Uc5wY-rBegU?si=usnbQ_uEWsFRLS14" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div style="margin-top: 15px; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;">
+            <!-- Thumbnail 1 (Main) -->
+            <img src="https://img.youtube.com/vi/Uc5wY-rBegU/mqdefault.jpg" alt="Highlight 1" style="width: 160px; height: 90px; flex-shrink: 0; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #1e3a8a; transition: border-color 0.2s;" onclick="trackButtonEvent('Played Video: Uc5wY-rBegU'); document.getElementById('video-frame').src='https://www.youtube.com/embed/Uc5wY-rBegU?si=usnbQ_uEWsFRLS14'" onmouseover="this.style.borderColor='#4aa7e5'" onmouseout="this.style.borderColor='#1e3a8a'">
+            
+            <!-- Thumbnail 2 (New Requested Video) -->
+            <img src="https://img.youtube.com/vi/BQoo0eucP2A/mqdefault.jpg" alt="Highlight 2" style="width: 160px; height: 90px; flex-shrink: 0; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #1e3a8a; transition: border-color 0.2s;" onclick="trackButtonEvent('Played Video: BQoo0eucP2A'); document.getElementById('video-frame').src='https://www.youtube.com/embed/BQoo0eucP2A?si=dxfcUAfnXRNXP7R6'" onmouseover="this.style.borderColor='#4aa7e5'" onmouseout="this.style.borderColor='#1e3a8a'">
+            
+            <!-- Thumbnail 3 (Latest Video) -->
+            <img src="https://img.youtube.com/vi/SV_3CfC9NbQ/mqdefault.jpg" alt="Highlight 3" style="width: 160px; height: 90px; flex-shrink: 0; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #1e3a8a; transition: border-color 0.2s;" onclick="trackButtonEvent('Played Video: SV_3CfC9NbQ'); document.getElementById('video-frame').src='https://www.youtube.com/embed/SV_3CfC9NbQ?si=ke-MUVRBqB2BBab5'" onmouseover="this.style.borderColor='#4aa7e5'" onmouseout="this.style.borderColor='#1e3a8a'">
+          </div>
+        </section>
+
+        <!-- Bio & Development Block -->
+        <section class="animate-section delay-3">
+          <h2 class="sec-header-white" style="color: #0f172a; font-family: 'Orbitron', sans-serif; margin-top: 30px; font-weight: 800;">Level of Play and Development</h2>
+          <div style="margin: 20px 0; display: flex; flex-direction: column; align-items: center;">
+            <img src="Rankings1.jpg" alt="GotSports Rankings" style="width: 100%; max-width: 800px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+            <div style="margin-top: 25px; margin-bottom: 10px;">
+              <a href="#" onclick="document.getElementById('eventsModal').style.display='flex'; return false;" style="display: inline-block; background-color: #4959b8; color: #ffffff; text-decoration: none; font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; padding: 14px 32px; border: 3px solid #ffffff; border-radius: 50px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(0,0,0,0.3)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)';">
+                Past Performances: Ranked Events
+              </a>
+            </div>
+          </div>
+          <p class="bio-text" style="color: #0f172a; font-size: 17px; line-height: 1.6; font-family: 'Orbitron', sans-serif; font-weight: 500;">
+            Nationally ranked #3 in CAS. Competes directly against elite ECNL and ECNL-RL programs. Currently playing an age group up (2007/2008 teams) as a 2028 sophomore. Developed in a professional environment training under former USMNT defender Michael Orozco Fiscal, Luis Américo Scatolaro, and Ashley Nick. High soccer IQ, exceptional field vision, and ambidextrous play.
+          </p>
+          <div style="margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 20px; width: 100%;">
+            <!-- Left Arrow -->
+            <button onclick="prevCarousel()" style="width: 50px; height: 50px; border-radius: 50%; background: #ffffff; border: 2px solid #e2e8f0; color: #1e3a8a; font-size: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.background='#f8fafc'; this.style.transform='scale(1.1)'; this.style.borderColor='#72bcec';" onmouseout="this.style.background='#ffffff'; this.style.transform='scale(1)'; this.style.borderColor='#e2e8f0';">
+              &#10094;
+            </button>
+            
+            <div style="flex: 1; max-width: 800px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: flex; justify-content: center; background: #000;">
+              <img id="main-carousel-img" src="AvaTicket.jpg" alt="Ava Carousel Photo" style="width: 100%; max-height: 500px; object-fit: contain; display: block; transition: opacity 0.3s ease-in-out;">
+            </div>
+            
+            <!-- Right Arrow -->
+            <button onclick="nextCarousel()" style="width: 50px; height: 50px; border-radius: 50%; background: #ffffff; border: 2px solid #e2e8f0; color: #1e3a8a; font-size: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.background='#f8fafc'; this.style.transform='scale(1.1)'; this.style.borderColor='#72bcec';" onmouseout="this.style.background='#ffffff'; this.style.transform='scale(1)'; this.style.borderColor='#e2e8f0';">
+              &#10095;
+            </button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- Heartbeat Telemetry status footer bar -->
+    <div class="telemetry-status">
+      <div class="status-dot"></div>
+      <span id="tracker-msg">Connecting secure database gateway...</span>
+    </div>
+  </div>
+
+  <script>
+    // Tab Video Swapper Logic
+    function swapVideo(tabNum, srcUrl) {
+      const frame = document.getElementById('video-frame');
+      const tabs = [document.getElementById('tab-1'), document.getElementById('tab-2')];
+      
+      frame.src = srcUrl;
+      tabs.forEach((tab, index) => {
+        if (index === tabNum - 1) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+      console.log(`Video swapped to Tab #${tabNum}: ${srcUrl}`);
+    }
+
+    // Main Carousel Logic
+    let currentCarouselIdx = 0;
+    const carouselImg = document.getElementById('main-carousel-img');
+    const carouselImages = [
+      "AvaTicket.jpg",
+      "JillEllisandAva.jpg",
+      "CoachMichael1.jpg",
+      "LegendsBotB.jpg",
+      "Michael2.jpg",
+      "USYSBlue.jpg",
+      "Americo.jpg",
+      "AvaSurfnames.jpg",
+      "michael3.jpg",
+      "natchamp2.jpg"
+    ];
+
+    function updateCarousel() {
+      carouselImg.style.opacity = '0';
+      setTimeout(() => {
+        carouselImg.src = carouselImages[currentCarouselIdx];
+        carouselImg.style.opacity = '1';
+      }, 150);
+    }
+
+    function nextCarousel() {
+      currentCarouselIdx = (currentCarouselIdx + 1) % carouselImages.length;
+      updateCarousel();
+    }
+
+    function prevCarousel() {
+      currentCarouselIdx = (currentCarouselIdx - 1 + carouselImages.length) % carouselImages.length;
+      updateCarousel();
+    }
+
+    // Sub Gallery Slider Mocking
+    let currentSubIdx = 0;
+    const subGalleryImg = document.getElementById('sub-img');
+    const subImages = ["sub_gallery.png", "action_1.png", "action_5.png", "action_7.png"];
+    
+    function slideSub(next) {
+      if (next) {
+        currentSubIdx = (currentSubIdx + 1) % subImages.length;
+      } else {
+        currentSubIdx = (currentSubIdx - 1 + subImages.length) % subImages.length;
+      }
+      subGalleryImg.src = subImages[currentSubIdx];
+    }
+
+    // Supabase Configuration
+    const supabaseUrl = "https://osrsuvmwbnlvdiearfce.supabase.co";
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9zcnN1dm13Ym5sdmRpZWFyZmNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxODIxOTUsImV4cCI6MjA5MTc1ODE5NX0.Wvn-HYb4d4xEcE1h2hNcyP-GyNlYVj3Nu2DUHguxBrQ";
+    
+    const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+
+    // Get Target ID (tid) from URL Parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const tid = urlParams.get('tid');
+    
+    let clickId = null;
+    let durationSeconds = 0;
+    const trackerMsg = document.getElementById('tracker-msg');
+
+    async function initializeTracking() {
+      if (!tid) {
+        trackerMsg.innerText = "Developer Review Mode (No Telemetry)";
+        console.log("No Target ID (tid) found. Tracking disabled.");
+        return;
+      }
+
+      try {
+        // 1. Verify Target
+        const { data: targetExists, error: checkError } = await supabaseClient
+          .from('targets')
+          .select('school_name, coach_name')
+          .eq('id', tid)
+          .single();
+
+        if (checkError || !targetExists) {
+          trackerMsg.innerText = "Gateway Connection Failed - Invalid Target";
+          return;
+        }
+
+        // 2. Log initial click
+        const { data, error } = await supabaseClient
+          .from('recruiting_clicks')
+          .insert({
+            target_id: tid,
+            user_agent: navigator.userAgent
+          })
+          .select('id')
+          .single();
+
+        if (error) throw error;
+        clickId = data.id;
+
+        trackerMsg.innerText = `Connected: Recruiting Portal Active for ${targetExists.school_name} - Coach ${targetExists.coach_name.split(' ').pop()}`;
+        console.log(`Tracking successfully initialized: ${clickId}`);
+
+        // 3. Telemetry heartbeat (logs active reading seconds)
+        setInterval(async () => {
+          if (document.hasFocus()) {
+            durationSeconds += 5;
+            await supabaseClient.from('recruiting_clicks')
+              .update({ duration_seconds: durationSeconds })
+              .eq('id', clickId);
+            
+            console.log(`Heartbeat: Duration updated to ${durationSeconds}s`);
+          }
+        }, 5000);
+
+      } catch (err) {
+        console.error("Telemetry error:", err.message);
+        trackerMsg.innerText = "Gateway Connection Dormant";
+      }
+    }
+
+    async function trackButtonEvent(buttonName) {
+      if (!tid) return;
+      try {
+        await supabaseClient.from('button_events').insert({
+          target_id: tid,
+          click_id: clickId,
+          button_name: buttonName,
+          user_agent: navigator.userAgent
+        });
+        console.log(`Tracked button click: ${buttonName}`);
+      } catch (err) {
+        console.error("Button tracking error:", err.message);
+      }
+    }
+
+    initializeTracking();
+  </script>
+  <!-- Contact Modal -->
+  <div id="contactModal" class="modal-overlay" onclick="if(event.target === this) this.style.display='none'">
+    <div class="modal-box">
+      <span class="close-btn" onclick="document.getElementById('contactModal').style.display='none'">&times;</span>
+      <h3>Contact Information</h3>
+      <p><strong>Dad:</strong> Jon DeLaurie</p>
+      <p><strong>Email:</strong> <a href="mailto:jondelaurie@gmail.com">jondelaurie@gmail.com</a></p>
+      <p><strong>Mobile:</strong> <a href="tel:818-231-7920">818-231-7920</a></p>
+    </div>
+  </div>
+
+  <!-- Events Modal -->
+  <div id="eventsModal" class="modal-overlay" onclick="if(event.target === this) this.style.display='none'">
+    <div style="position: relative; max-width: 900px; width: 95%; background: transparent; padding: 0;">
+      <span class="close-btn" onclick="document.getElementById('eventsModal').style.display='none'" style="position: absolute; right: -15px; top: -15px; background: rgba(0,0,0,0.8); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; font-size: 24px; z-index: 10; border: 2px solid white;">&times;</span>
+      <img src="RankedEvents.jpg" alt="Ranked Events" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: block;">
+    </div>
+  </div>
+
+</body>
+</html>
