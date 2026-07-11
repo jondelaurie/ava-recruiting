@@ -232,7 +232,8 @@
       display: flex;
       flex-direction: column;
       gap: 30px;
-      width: 100%; /* Ensure sky-blue grid column fills the entire horizontal space of the grid cell */
+      width: 100%;
+      min-width: 0; /* Prevents grid column from stretching to fit large flex items */
     }
 
     /* Schedule Table Section */
@@ -292,12 +293,15 @@
     /* Highlights Section with Tab Selector */
     .highlights-wrapper {
       width: 100%;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .video-card {
       background: #1e2235;
       border: 1px solid var(--border-color);
       border-radius: 16px;
+      overflow: hidden;
       padding: 20px;
       box-shadow: 0 15px 30px rgba(0,0,0,0.15);
       position: relative;
