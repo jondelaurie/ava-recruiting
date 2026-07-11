@@ -755,7 +755,10 @@
               <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/Uc5wY-rBegU?si=usnbQ_uEWsFRLS14" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
           </div>
-          <div style="margin-top: 15px; display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;">
+          <style>#video-carousel::-webkit-scrollbar { display: none; }</style>
+          <div style="position: relative; margin-top: 15px; width: 100%; max-width: 100%; display: flex; align-items: center;">
+            <button onclick="document.getElementById('video-carousel').scrollBy({left: -200, behavior: 'smooth'})" style="position: absolute; left: 0; z-index: 10; background: rgba(0,0,0,0.6); color: white; border: none; padding: 10px; cursor: pointer; height: 90px; border-radius: 6px 0 0 6px;">&#10094;</button>
+            <div id="video-carousel" style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; padding: 0 40px; scrollbar-width: none; -ms-overflow-style: none; width: 100%; max-width: 100%;">
             <!-- Thumbnail 1 (Main) -->
             <img src="https://img.youtube.com/vi/Uc5wY-rBegU/mqdefault.jpg" alt="Highlight 1" style="width: 160px; height: 90px; flex-shrink: 0; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #1e3a8a; transition: border-color 0.2s;" onclick="trackButtonEvent('Played Video: Uc5wY-rBegU'); document.getElementById('video-frame').src='https://www.youtube.com/embed/Uc5wY-rBegU?si=usnbQ_uEWsFRLS14'" onmouseover="this.style.borderColor='#4aa7e5'" onmouseout="this.style.borderColor='#1e3a8a'">
             
@@ -781,7 +784,9 @@
             <img src="https://img.youtube.com/vi/c6apEOKk_ao/mqdefault.jpg" alt="Highlight 8" style="width: 160px; height: 90px; flex-shrink: 0; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #1e3a8a; transition: border-color 0.2s;" onclick="trackButtonEvent('Played Video: c6apEOKk_ao'); document.getElementById('video-frame').src='https://www.youtube.com/embed/c6apEOKk_ao?si=igG7PbeSWxBWiM1y'" onmouseover="this.style.borderColor='#4aa7e5'" onmouseout="this.style.borderColor='#1e3a8a'">
             
             <!-- Thumbnail 9 -->
-            <img src="https://img.youtube.com/vi/lSW8s2AKsU8/mqdefault.jpg" alt="Highlight 9" style="width: 160px; height: 90px; flex-shrink: 0; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #1e3a8a; transition: border-color 0.2s;" onclick="trackButtonEvent('Played Video: lSW8s2AKsU8'); document.getElementById('video-frame').src='https://www.youtube.com/embed/lSW8s2AKsU8?si=GWwJWg3sSMIuttgR'" onmouseover="this.style.borderColor='#4aa7e5'" onmouseout="this.style.borderColor='#1e3a8a'">          </div>
+            <img src="https://img.youtube.com/vi/lSW8s2AKsU8/mqdefault.jpg" alt="Highlight 9" style="width: 160px; height: 90px; flex-shrink: 0; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #1e3a8a; transition: border-color 0.2s;" onclick="trackButtonEvent('Played Video: lSW8s2AKsU8'); document.getElementById('video-frame').src='https://www.youtube.com/embed/lSW8s2AKsU8?si=GWwJWg3sSMIuttgR'" onmouseover="this.style.borderColor='#4aa7e5'" onmouseout="this.style.borderColor='#1e3a8a'">            </div>
+            <button onclick="document.getElementById('video-carousel').scrollBy({left: 200, behavior: 'smooth'})" style="position: absolute; right: 0; z-index: 10; background: rgba(0,0,0,0.6); color: white; border: none; padding: 10px; cursor: pointer; height: 90px; border-radius: 0 6px 6px 0;">&#10095;</button>
+          </div>
         </section>
 
         <!-- Bio & Development Block -->
